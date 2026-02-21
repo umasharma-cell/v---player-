@@ -1,0 +1,49 @@
+.section {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 16px 0;
+  padding: 0 16px;
+}
+
+.scrollContainer {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.videoList {
+  display: flex;
+  gap: 16px;
+  padding: 0 16px;
+  padding-bottom: 8px;
+}
+
+/* Add some extra space at the end for scroll */
+.videoList::after {
+  content: '';
+  flex-shrink: 0;
+  width: 1px;
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+    padding: 0 12px;
+  }
+
+  .videoList {
+    gap: 12px;
+    padding: 0 12px;
+  }
+}
