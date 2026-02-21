@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HomePage } from './pages/HomePage';
 import { PlayerPage } from './pages/PlayerPage';
-import { MiniPlayer } from './features/player/components/MiniPlayer';
+import { GlobalPlayer } from './features/player/components';
 import { PageTransition } from './components/ui';
 import './App.css';
 
@@ -38,7 +38,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <AnimatedRoutes />
-        <MiniPlayer />
+        <GlobalPlayer />
       </div>
     </BrowserRouter>
   );

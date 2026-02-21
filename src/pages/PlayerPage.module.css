@@ -6,9 +6,11 @@
   flex-direction: column;
 }
 
-.playerContainer {
+/* Spacer for the fixed video player */
+.playerSpacer {
   width: 100%;
-  background-color: #000;
+  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
 }
 
 .videoInfo {
@@ -60,20 +62,18 @@
 /* Desktop layout */
 @media (min-width: 768px) {
   .page {
-    padding: 24px;
+    padding-top: 24px;
     align-items: center;
   }
 
-  .playerContainer {
+  .playerSpacer {
     max-width: 900px;
-    border-radius: 12px;
-    overflow: hidden;
   }
 
   .videoInfo {
     max-width: 900px;
     width: 100%;
-    padding: 20px 0;
+    padding: 20px 24px;
   }
 
   .title {
@@ -82,7 +82,7 @@
 }
 
 @media (min-width: 1200px) {
-  .playerContainer {
+  .playerSpacer {
     max-width: 1100px;
   }
 

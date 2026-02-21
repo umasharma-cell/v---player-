@@ -1,6 +1,8 @@
 export { VideoPlayer } from './VideoPlayer';
 export { VideoControls } from './VideoControls';
 export { MiniPlayer } from './MiniPlayer';
+export { MiniPlayerUI } from './MiniPlayerUI';
+export { GlobalPlayer } from './GlobalPlayer';
 export { BottomSheet } from './BottomSheet';
 export { RelatedVideosList } from './RelatedVideosList';
 export { RelatedVideoItem } from './RelatedVideoItem';
