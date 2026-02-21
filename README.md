@@ -1,73 +1,134 @@
-# React + TypeScript + Vite
+# Video Player Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first video player app with YouTube mobile-like UX, featuring smooth playback, gesture interactions, and a clean UI.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Install dependencies
+npm install
 
-## React Compiler
+# Start development server
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Build for production
+npm run build
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React 19** + **TypeScript**
+- **Vite** - Build tool
+- **Framer Motion** - Animations and gestures
+- **Zustand** - State management
+- **React Router** - Routing
+- **CSS Modules** - Scoped styling
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Features
+
+### Core Features
+
+#### Home Page Feed
+- [x] Scrollable list of videos grouped by category
+- [x] Video cards with thumbnail, title, duration, and category badge
+- [x] Click to open full-page player
+- [x] Smooth page transitions
+
+#### Full-Page Video Player
+- [x] Auto-play on open
+- [x] Custom controls overlay
+  - [x] Play/Pause button
+  - [x] Skip +10/-10 seconds
+  - [x] Seekable progress bar
+  - [x] Current time / total duration
+- [x] Responsive layout (mobile + desktop)
+- [x] MP4 video support
+- [x] Auto-hide controls after inactivity
+
+#### In-Player Related Videos
+- [x] Bottom sheet with swipe/scroll reveal
+- [x] Filtered by same category
+- [x] Click to switch video instantly
+- [x] Auto-play on switch
+- [x] List updates when category changes
+- [x] Smooth spring animations
+
+#### Drag-to-Minimize Mini-Player
+- [x] Drag down gesture to minimize
+- [x] Docked mini-player at bottom
+- [x] Video continues playing
+- [x] Shows title, play/pause, close button
+- [x] Progress indicator
+- [x] Persists while browsing home
+- [x] Tap to restore full-screen
+
+### Bonus Features
+
+- [x] **Autoplay Next** - 5-second countdown with cancel option
+- [x] **Loading Skeletons** - Shimmer effect for images
+- [x] **Error Boundary** - Graceful error handling with retry
+- [x] **Safe Area Support** - Notched device handling
+- [x] **Accessibility** - Focus-visible styles, ARIA labels
+
+## Project Structure
+
 ```
+src/
+├── components/
+│   ├── ui/                    # Reusable UI components
+│   │   ├── PageTransition.tsx
+│   │   ├── Skeleton.tsx
+│   │   └── ErrorBoundary.tsx
+│   └── video/                 # Video-specific components
+│       ├── VideoCard.tsx
+│       └── CategorySection.tsx
+├── features/
+│   └── player/
+│       ├── components/        # Player components
+│       │   ├── GlobalPlayer.tsx
+│       │   ├── VideoPlayer.tsx
+│       │   ├── VideoControls.tsx
+│       │   ├── MiniPlayerUI.tsx
+│       │   ├── BottomSheet.tsx
+│       │   ├── RelatedVideosList.tsx
+│       │   ├── AutoplayCountdown.tsx
+│       │   └── SwipeUpHint.tsx
+│       └── hooks/
+│           └── useVideoPlayer.ts
+├── pages/
+│   ├── HomePage.tsx
+│   └── PlayerPage.tsx
+├── store/
+│   └── playerStore.ts         # Zustand store
+├── data/
+│   ├── videos.ts              # Video dataset
+│   └── index.ts               # Data helpers
+├── types/
+│   └── index.ts               # TypeScript types
+└── utils/
+    └── formatTime.ts          # Time formatting
+```
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome for Android)
+
+## Known Limitations
+
+- Video URLs use Google's sample videos (Big Buck Bunny, Sintel, etc.)
+- No HLS support (MP4 only)
+- No offline support
+- No user authentication
+
+## Performance Considerations
+
+- GPU-accelerated animations (transform/opacity only)
+- Lazy loading for images
+- Minimal re-renders with Zustand selectors
+- CSS containment for scroll containers
