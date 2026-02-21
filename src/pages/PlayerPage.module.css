@@ -50,6 +50,13 @@
   margin: 0;
 }
 
+.hintContainer {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 32px;
+  margin-top: auto;
+}
+
 /* Desktop layout */
 @media (min-width: 768px) {
   .page {
