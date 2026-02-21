@@ -4,20 +4,22 @@
   left: 0;
   right: 0;
   padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Progress bar */
+/* Progress bar - 44px touch target */
 .progressContainer {
   width: 100%;
-  height: 24px;
+  height: 44px;
   display: flex;
   align-items: center;
   cursor: pointer;
   touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .progressTrack {
@@ -26,9 +28,11 @@
   height: 4px;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
+  transition: height 0.15s ease;
 }
 
-.progressContainer:hover .progressTrack {
+.progressContainer:hover .progressTrack,
+.progressContainer:active .progressTrack {
   height: 6px;
 }
 
@@ -39,21 +43,23 @@
   height: 100%;
   background-color: var(--color-accent);
   border-radius: 2px;
-  transition: width 0.1s linear;
+  will-change: width;
 }
 
 .progressThumb {
   position: absolute;
   top: 50%;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background-color: var(--color-accent);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.progressContainer:hover .progressThumb {
+.progressContainer:hover .progressThumb,
+.progressContainer:active .progressThumb {
   transform: translate(-50%, -50%) scale(1);
 }
 
@@ -88,9 +94,12 @@
   gap: 24px;
 }
 
+/* Play button - min 56px touch target */
 .playButton {
   width: 56px;
   height: 56px;
+  min-width: 56px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,6 +107,7 @@
   border-radius: 50%;
   color: var(--color-text-primary);
   transition: background-color 0.2s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .playButton:hover {
@@ -106,22 +116,42 @@
 
 .playButton:active {
   transform: scale(0.95);
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
+.playButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Skip buttons - min 48px touch target */
 .skipButton {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-primary);
   border-radius: 50%;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .skipButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.skipButton:active {
+  transform: scale(0.95);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.skipButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .skipLabel {
@@ -132,6 +162,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   margin-top: 1px;
+  pointer-events: none;
 }
 
 /* Right spacer for balance */
@@ -143,12 +174,15 @@
 @media (max-width: 480px) {
   .controls {
     padding: 12px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
     gap: 8px;
   }
 
   .playButton {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
   }
 
   .playButton svg {
@@ -157,8 +191,10 @@
   }
 
   .skipButton {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .centerControls {
