@@ -7,3 +7,4 @@ export { BottomSheet } from './BottomSheet';
 export { RelatedVideosList } from './RelatedVideosList';
 export { RelatedVideoItem } from './RelatedVideoItem';
 export { SwipeUpHint } from './SwipeUpHint';
+export { AutoplayCountdown } from './AutoplayCountdown';

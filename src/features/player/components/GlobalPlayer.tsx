@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, useAnimation, type PanInfo } from 'framer-motion';
 import { usePlayerStore } from '../../../store';
+import { getRelatedVideos } from '../../../data';
 import { useVideoPlayer } from '../hooks';
 import { VideoControls } from './VideoControls';
 import { MiniPlayerUI } from './MiniPlayerUI';
+import { AutoplayCountdown } from './AutoplayCountdown';
 import styles from './GlobalPlayer.module.css';
 
 const MINIMIZE_THRESHOLD = 100;
@@ -15,10 +17,12 @@ export function GlobalPlayer() {
   const location = useLocation();
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showAutoplay, setShowAutoplay] = useState(false);
 
   const {
     currentVideo,
     mode,
+    setVideo,
     setIsPlaying,
     setCurrentTime,
     setDuration,
@@ -26,6 +30,20 @@ export function GlobalPlayer() {
     maximize,
     close,
   } = usePlayerStore();
+
+  // Get next video in same category
+  const nextVideo = useMemo(() => {
+    if (!currentVideo) return null;
+    const related = getRelatedVideos(currentVideo);
+    return related.length > 0 ? related[0] : null;
+  }, [currentVideo]);
+
+  // Handle video ended
+  const handleVideoEnded = useCallback(() => {
+    if (nextVideo && mode === 'fullscreen') {
+      setShowAutoplay(true);
+    }
+  }, [nextVideo, mode]);
 
   const {
     isPlaying,
@@ -44,12 +62,32 @@ export function GlobalPlayer() {
     onTimeUpdate: setCurrentTime,
     onDurationChange: setDuration,
     onPlayStateChange: setIsPlaying,
+    onEnded: handleVideoEnded,
   });
 
   // Sync play state with store
   useEffect(() => {
     setIsPlaying(isPlaying);
   }, [isPlaying, setIsPlaying]);
+
+  // Hide autoplay when video changes
+  useEffect(() => {
+    setShowAutoplay(false);
+  }, [currentVideo?.id]);
+
+  // Handle play next video
+  const handlePlayNext = useCallback(() => {
+    if (nextVideo) {
+      setShowAutoplay(false);
+      setVideo(nextVideo);
+      navigate(`/watch/${nextVideo.id}`, { replace: true });
+    }
+  }, [nextVideo, setVideo, navigate]);
+
+  // Handle cancel autoplay
+  const handleCancelAutoplay = useCallback(() => {
+    setShowAutoplay(false);
+  }, []);
 
   // Handle drag end for minimize gesture
   const handleDragEnd = useCallback(
@@ -62,6 +100,7 @@ export function GlobalPlayer() {
 
       if (shouldMinimize) {
         minimize();
+        setShowAutoplay(false);
         // Navigate back to home if we're on a watch page
         if (location.pathname.startsWith('/watch')) {
           navigate('/', { replace: true });
@@ -83,6 +122,7 @@ export function GlobalPlayer() {
 
   // Handle close
   const handleClose = useCallback(() => {
+    setShowAutoplay(false);
     close();
   }, [close]);
 
@@ -130,17 +170,29 @@ export function GlobalPlayer() {
               </div>
             )}
 
-            <div className={styles.controlsOverlay}>
-              <VideoControls
-                isPlaying={isPlaying}
-                currentTime={currentTime}
-                duration={duration}
-                onTogglePlay={togglePlay}
-                onSkipForward={() => skipForward(10)}
-                onSkipBackward={() => skipBackward(10)}
-                onSeek={seekTo}
-              />
-            </div>
+            {/* Autoplay countdown overlay */}
+            <AutoplayCountdown
+              nextVideo={nextVideo}
+              isVisible={showAutoplay}
+              countdownSeconds={5}
+              onPlayNext={handlePlayNext}
+              onCancel={handleCancelAutoplay}
+            />
+
+            {/* Controls overlay - hide during autoplay */}
+            {!showAutoplay && (
+              <div className={styles.controlsOverlay}>
+                <VideoControls
+                  isPlaying={isPlaying}
+                  currentTime={currentTime}
+                  duration={duration}
+                  onTogglePlay={togglePlay}
+                  onSkipForward={() => skipForward(10)}
+                  onSkipBackward={() => skipBackward(10)}
+                  onSeek={seekTo}
+                />
+              </div>
+            )}
 
             {/* Drag indicator */}
             <div className={styles.dragIndicator}>
