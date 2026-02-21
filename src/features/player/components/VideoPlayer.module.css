@@ -1,0 +1,87 @@
+.container {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
+}
+
+/* Controls overlay */
+.controlsOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.controlsOverlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Buffering overlay */
+.bufferingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--color-text-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.errorContainer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+}
+
+.errorContent svg {
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.errorContent p {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.errorContent span {
+  font-size: 14px;
+  opacity: 0.7;
+}
