@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 24px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  max-width: 320px;
+}
+
+.content svg {
+  color: var(--color-accent);
+  opacity: 0.8;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.message {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.retryButton {
+  margin-top: 8px;
+  padding: 10px 24px;
+  background-color: var(--color-accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.retryButton:hover {
+  opacity: 0.9;
+}
+
+.retryButton:active {
+  opacity: 0.8;
+}

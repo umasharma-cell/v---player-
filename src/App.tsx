@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { HomePage } from './pages/HomePage';
 import { PlayerPage } from './pages/PlayerPage';
 import { GlobalPlayer } from './features/player/components';
-import { PageTransition } from './components/ui';
+import { PageTransition, ErrorBoundary } from './components/ui';
 import './App.css';
 
 function AnimatedRoutes() {
@@ -35,12 +35,14 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="app">
-        <AnimatedRoutes />
-        <GlobalPlayer />
-      </div>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <div className="app">
+          <AnimatedRoutes />
+          <GlobalPlayer />
+        </div>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
