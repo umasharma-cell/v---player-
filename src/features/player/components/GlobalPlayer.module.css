@@ -8,6 +8,51 @@
   touch-action: pan-x;
 }
 
+/* Player header with back button */
+.playerHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  background: linear-gradient(rgba(0, 0, 0, 0.7), transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.backButton {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.backButton:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.headerTitle {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .videoWrapper {
   position: relative;
   width: 100%;
@@ -79,9 +124,18 @@
 @media (min-width: 768px) {
   .fullscreenContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 24px;
+    padding-top: 60px;
     background-color: rgba(0, 0, 0, 0.95);
+  }
+
+  .playerHeader {
+    position: fixed;
+    top: 0;
+    background: transparent;
+    padding: 16px 24px;
   }
 
   .videoWrapper {

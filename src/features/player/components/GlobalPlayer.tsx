@@ -126,6 +126,13 @@ export function GlobalPlayer() {
     close();
   }, [close]);
 
+  // Handle back button - minimize and go home
+  const handleBack = useCallback(() => {
+    minimize();
+    setShowAutoplay(false);
+    navigate('/');
+  }, [minimize, navigate]);
+
   // Handle mini-player play/pause
   const handleMiniTogglePlay = useCallback(() => {
     if (isPlaying) {
@@ -156,6 +163,18 @@ export function GlobalPlayer() {
           onDragEnd={handleDragEnd}
           animate={controls}
         >
+          {/* Back button header */}
+          <div className={styles.playerHeader}>
+            <button
+              className={styles.backButton}
+              onClick={handleBack}
+              aria-label="Go back"
+            >
+              <BackIcon />
+            </button>
+            <span className={styles.headerTitle}>{currentVideo.title}</span>
+          </div>
+
           <div className={styles.videoWrapper}>
             <video
               {...videoProps}
@@ -224,5 +243,13 @@ export function GlobalPlayer() {
         />
       )}
     </>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+      <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+    </svg>
   );
 }
