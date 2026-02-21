@@ -6,20 +6,26 @@ interface VideoControlsProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  isPiP?: boolean;
+  isPiPSupported?: boolean;
   onTogglePlay: () => void;
   onSkipForward: () => void;
   onSkipBackward: () => void;
   onSeek: (time: number) => void;
+  onTogglePiP?: () => void;
 }
 
 export function VideoControls({
   isPlaying,
   currentTime,
   duration,
+  isPiP = false,
+  isPiPSupported = false,
   onTogglePlay,
   onSkipForward,
   onSkipBackward,
   onSeek,
+  onTogglePiP,
 }: VideoControlsProps) {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -128,8 +134,19 @@ export function VideoControls({
           </button>
         </div>
 
-        {/* Right spacer for balance */}
-        <div className={styles.rightSpacer} />
+        {/* Right controls */}
+        <div className={styles.rightControls}>
+          {isPiPSupported && onTogglePiP && (
+            <button
+              className={styles.pipButton}
+              onClick={onTogglePiP}
+              aria-label={isPiP ? 'Exit Picture-in-Picture' : 'Picture-in-Picture'}
+              title={isPiP ? 'Exit PiP' : 'Picture-in-Picture'}
+            >
+              {isPiP ? <PiPExitIcon /> : <PiPIcon />}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -164,6 +181,22 @@ function SkipForwardIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
       <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
+    </svg>
+  );
+}
+
+function PiPIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+      <path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z" />
+    </svg>
+  );
+}
+
+function PiPExitIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+      <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 17h6v-4H9v4z" />
     </svg>
   );
 }

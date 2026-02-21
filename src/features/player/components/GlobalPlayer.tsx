@@ -50,12 +50,15 @@ export function GlobalPlayer() {
     currentTime,
     duration,
     isBuffering,
+    isPiP,
+    isPiPSupported,
     togglePlay,
     skipForward,
     skipBackward,
     seekTo,
     play,
     pause,
+    togglePiP,
     videoProps,
   } = useVideoPlayer({
     autoPlay: true,
@@ -205,10 +208,13 @@ export function GlobalPlayer() {
                   isPlaying={isPlaying}
                   currentTime={currentTime}
                   duration={duration}
+                  isPiP={isPiP}
+                  isPiPSupported={isPiPSupported}
                   onTogglePlay={togglePlay}
                   onSkipForward={() => skipForward(10)}
                   onSkipBackward={() => skipBackward(10)}
                   onSeek={seekTo}
+                  onTogglePiP={togglePiP}
                 />
               </div>
             )}
